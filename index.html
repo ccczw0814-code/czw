@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蔡展文 - 个人简历</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            background: #fff; color: #1d1d1f; line-height: 1.5;
+        }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+        
+        /* Hero */
+        .hero {
+            text-align: center; padding: 80px 0 60px;
+        }
+        .avatar {
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 48px; font-weight: 300;
+        }
+        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .hero h1 { font-size: 48px; font-weight: 600; letter-spacing: -0.5px; }
+        .hero p { font-size: 21px; color: #86868b; margin-top: 8px; }
+        
+        /* Cards */
+        .cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; padding: 40px 0 80px;
+        }
+        .card {
+            background: #f5f5f7; border-radius: 18px; padding: 32px;
+            cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .card-icon { font-size: 36px; margin-bottom: 16px; }
+        .card h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .card p { color: #86868b; font-size: 14px; }
+        
+        /* Modal */
+        .modal {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #fff; border-radius: 18px; max-width: 680px; width: 100%;
+            max-height: 85vh; overflow-y: auto; position: relative;
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-header {
+            padding: 24px 32px; border-bottom: 1px solid #e5e5e5;
+            display: flex; align-items: center; gap: 16px;
+            position: sticky; top: 0; background: #fff; border-radius: 18px 18px 0 0;
+        }
+        .modal-header span { font-size: 32px; }
+        .modal-header h2 { font-size: 24px; font-weight: 600; }
+        .modal-close {
+            position: absolute; right: 20px; top: 20px; width: 30px; height: 30px;
+            border: none; background: #e5e5e5; border-radius: 50%; cursor: pointer;
+            font-size: 18px; color: #86868b; transition: background 0.2s;
+        }
+        .modal-close:hover { background: #d5d5d5; }
+        .modal-body { padding: 24px 32px; }
+        .modal-body h4 { font-size: 17px; font-weight: 600; color: #1d1d1f; margin: 20px 0 8px; }
+        .modal-body h4:first-child { margin-top: 0; }
+        .modal-body p, .modal-body li { color: #424245; font-size: 15px; }
+        .modal-body ul { padding-left: 20px; }
+        .modal-body li { margin: 6px 0; }
+        .tag {
+            display: inline-block; background: #e8f4fd; color: #0071e3;
+            padding: 4px 12px; border-radius: 20px; font-size: 13px; margin: 4px 4px 4px 0;
+        }
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .info-item span { display: block; color: #86868b; font-size: 13px; }
+        .info-item strong { font-size: 15px; }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero { padding: 60px 0 40px; }
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 17px; }
+            .cards { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <div class="avatar">
+                <!-- 替换为: <img src="photo.jpg" alt="照片"> -->
+                蔡
+            </div>
+            <h1>蔡展文</h1>
+            <p>机械工程硕士 · 机器学习 · AI效能</p>
+        </section>
+        
+        <section class="cards">
+            <div class="card" onclick="openModal('info')">
+                <div class="card-icon">👤</div>
+                <h3>基本信息</h3>
+                <p>联系方式、求职意向、技术标签</p>
+            </div>
+            <div class="card" onclick="openModal('edu')">
+                <div class="card-icon">🎓</div>
+                <h3>教育背景</h3>
+                <p>武汉纺织大学硕士、湖北工程学院本科</p>
+            </div>
+            <div class="card" onclick="openModal('project')">
+                <div class="card-icon">💻</div>
+                <h3>项目经历</h3>
+                <p>微信小程序开发、车辆质心测算系统</p>
+            </div>
+            <div class="card" onclick="openModal('work')">
+                <div class="card-icon">💼</div>
+                <h3>工作经历</h3>
+                <p>AI内容运营、教育行业运营</p>
+            </div>
+            <div class="card" onclick="openModal('skill')">
+                <div class="card-icon">⚡</div>
+                <h3>综合能力</h3>
+                <p>编程语言、AI工具、专业软件</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 模态弹窗 -->
+    <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-header"><span id="modalIcon"></span><h2 id="modalTitle"></h2></div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            info: {
+                icon: '👤', title: '基本信息',
+                html: `<div class="info-grid">
+                    <div class="info-item"><span>姓名</span><strong>蔡展文</strong></div>
+                    <div class="info-item"><span>性别</span><strong>男</strong></div>
+                    <div class="info-item"><span>民族</span><strong>汉族</strong></div>
+                    <div class="info-item"><span>学历</span><strong>硕士研究生在读</strong></div>
+                    <div class="info-item"><span>求职意向</span><strong>实习生</strong></div>
+                    <div class="info-item"><span>邮箱</span><strong>131217823@qq.com</strong></div>
+                    <div class="info-item"><span>电话</span><strong>17720535094</strong></div>
+                </div>
+                <h4>技术标签</h4>
+                <div><span class="tag">机器学习</span><span class="tag">Python</span><span class="tag">AI效能</span></div>`
+            },
+            edu: {
+                icon: '🎓', title: '教育背景',
+                html: `<h4>武汉纺织大学 · 机械工程硕士</h4>
+                <p>2024 - 2027.06（预计）</p>
+                <ul>
+                    <li>专业排名前 <strong>10%</strong></li>
+                    <li>获研究生学业奖学金</li>
+                    <li>发表 SCI 论文 1 篇，中文核心期刊论文 1 篇</li>
+                    <li>专业课程：数字图像处理、机电测控技术、数值分析等</li>
+                </ul>
+                <h4>湖北工程学院 · 机械工程本科</h4>
+                <p>2018 - 2022</p>
+                <ul>
+                    <li>专业排名前 <strong>20%</strong></li>
+                    <li>获本科生学业奖学金</li>
+                    <li>教师资格证（数学）</li>
+                </ul>`
+            },
+            project: {
+                icon: '💻', title: '项目经历',
+                html: `<h4>基于微信生态的小程序开发</h4>
+                <p>项目角色：全栈开发</p>
+                <div><span class="tag">Python</span><span class="tag">微信小程序</span><span class="tag">Echarts</span><span class="tag">LLM API</span></div>
+                <ul>
+                    <li><strong>架构设计：</strong>独立完成前后端分离架构，后端利用 Python 搭建数据采集与清洗管道，通过 AkShare 接口自动化获取财务数据（PE、PB、ROE等）</li>
+                    <li><strong>核心算法：</strong>计算历史估值低分位，自动拉取近 10 年关键财务数据，赋予不同权重进行综合评分，筛选异常值预警</li>
+                    <li><strong>AI 赋能：</strong>接入大语言模型 API，将数据转化为 Prompt，自动生成财务健康分析报告</li>
+                </ul>
+                <h4>车辆质心测算系统开发</h4>
+                <p>2024.11 - 2025.06 · 武汉纺织大学科研项目</p>
+                <div><span class="tag">PyTorch</span><span class="tag">PINN</span><span class="tag">ADAMS</span><span class="tag">PLC</span></div>
+                <ul>
+                    <li><strong>开发：</strong>构建车辆力学方程与物理建模，设计 PINN（物理信息神经网络）模型，测算误差控制在 <strong>0.5%</strong> 以内</li>
+                    <li><strong>工程：</strong>独立完成实验台电路接线、控制部分故障排查及 PLC 梯形图绘制</li>
+                    <li><strong>仿真：</strong>使用 ADAMS 软件进行车辆侧倾动力学仿真</li>
+                </ul>`
+            },
+            work: {
+                icon: '💼', title: '工作经历',
+                html: `<h4>参考答案（知识付费）· AI内容运营</h4>
+                <p>2023.12 - 2024.09 · 兼职</p>
+                <ul>
+                    <li><strong>AI 效能优化：</strong>熟练运用 ChatGPT、Claude、Kimi 等大模型，通过 Prompt Engineering 实现英文原稿精准翻译与中文润色</li>
+                    <li><strong>私域社群运营：</strong>负责会员社群维护，策划并落地 10 次"快闪"主题活动，参与率超 <strong>50%</strong></li>
+                    <li><strong>项目反馈：</strong>利用 AI 工具快速响应需求，持续迭代工作流</li>
+                </ul>
+                <h4>杰豹教育 · 教学运营</h4>
+                <p>2022.06 - 2023.01</p>
+                <ul>
+                    <li><strong>学生留存：</strong>负责大班制交付运营，通过数据驱动的精细化管理，留班率超 <strong>70%</strong></li>
+                    <li><strong>家长会：</strong>主导 3 次家长会，满意度平均分超 <strong>80</strong> 分</li>
+                    <li><strong>数据分析：</strong>定期输出"成绩分析报告"，针对不同学生制定差异化目标</li>
+                </ul>`
+            },
+            skill: {
+                icon: '⚡', title: '综合能力',
+                html: `<h4>编程语言</h4>
+                <div><span class="tag">Python</span><span class="tag">C语言</span></div>
+                <h4>算法与工具</h4>
+                <div><span class="tag">PyTorch</span><span class="tag">OpenCV</span><span class="tag">AkShare</span><span class="tag">Baostock</span><span class="tag">SQLite</span></div>
+                <h4>语言能力</h4>
+                <p>英语 CET-6，具备良好的英文读写和听说能力，能阅读英文文献及 SDK 文档</p>
+                <h4>AI 工具</h4>
+                <div><span class="tag">Gemini</span><span class="tag">Claude Code</span><span class="tag">ChatGPT</span><span class="tag">通义</span></div>
+                <h4>专业软件</h4>
+                <div><span class="tag">SolidWorks</span><span class="tag">AutoCAD</span><span class="tag">Visio</span><span class="tag">Axure</span></div>`
+            }
+        };
+
+        function openModal(key) {
+            const d = data[key];
+            document.getElementById('modalIcon').textContent = d.icon;
+            document.getElementById('modalTitle').textContent = d.title;
+            document.getElementById('modalBody').innerHTML = d.html;
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+    </script>
+</body>
+</html>
